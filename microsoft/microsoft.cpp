@@ -57,14 +57,14 @@ vector<vector<int>> directions {
 {1,-1},{1,0},{1,1}
 };
     vector<vector<int>> imageSmoother(vector<vector<int>>& img) {
-        int m=img.size();
-        int n=img[0].size();
+        int m=img.size(); //i
+        int n=img[0].size(); //j
         vector<vector<int>> results(m,vector<int>(n,0));
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 int sum=0;
                 int count=0;
-                for(auto &it:directions){
+                for(auto &it:directions){ 
                 int i_=i+it[0];
                 int j_=j+it[1];
                 if(i_>=0 && i_<m && j_>=0 && j_<n){
@@ -78,7 +78,40 @@ vector<vector<int>> directions {
             return results;
         }
 
-//question 5- 
+//question 5- minimum moves to equal element array
+  int minMoves2(vector<int>& nums) {
+       int n=nums.size();
+       sort(nums.begin(),nums.end());
+       int mid=n/2;
+       int median=nums[n/2];
+       int sum=0;
+for(auto &it:nums){
+ sum+=abs(it-median);
+}
+    return sum;
+}
+//question 6 - wiggle sort 
+void wiggleSort(vector<int>& nums) {
+        int n=nums.size();
+        vector<int>ans(n);
+        sort(nums.begin(),nums.end());
+        int i=1;
+        int j=n-1;
+        while(i<n && j>=0){
+            ans[i]=nums[j];
+            i=i+2;
+            j=j-1;
+        }
+        i=0;
+        while(i<n && j>=0){
+            ans[i]=nums[j];
+            i=i+2;
+            j--;   
+    }
+    for(int k=0;k<n;k++){
+        nums[k]=ans[k];
+    }
+    }
 
 int main(){
     cout<<"solving question for company one";
