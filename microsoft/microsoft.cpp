@@ -112,6 +112,62 @@ void wiggleSort(vector<int>& nums) {
         nums[k]=ans[k];
     }
     }
+    //question 7 - bulls and cows
+    string getHint(string secret, string guess) {
+        int bulls=0,cows=0;
+        unordered_map<char,int> map1,map2;
+        for(int i=0;i<secret.size();i++){
+            if(secret[i]==guess[i]) bulls++;
+            else{
+                map1[secret[i]]++;
+                map2[guess[i]]++;
+            }
+        }
+        for(auto it: map1){
+            if(map2.find(it.first)!=map2.end()){
+                cows+=min(it.second,map2[it.first]);
+            }
+        }
+        string ans=to_string(bulls)+"A"+to_string(cows)+"B";
+return ans;
+    }
+
+//question 7 - random point in non overlapin g rectangles
+    vector<int> prefixSums;         
+vector<vector<int>> rectangles;
+   class Solution {
+public:
+Solution(vector<vector<int>>& rects) {
+rectangles = rects; 
+int numRectangles = rectangles.size();
+prefixSums.resize(numRectangles + 1, 0);
+
+for (int i = 0; i < numRectangles; ++i) {
+prefixSums[i + 1] = prefixSums[i] + 
+ (rectangles[i][2] - rectangles[i][0] + 1) * 
+ (rectangles[i][3] - rectangles[i][1] + 1);
+      }
+srand(static_cast<unsigned int>(time(nullptr)));
+}
+  
+    vector<int> pick() {
+        int target = 1 + rand() % prefixSums.back();
+    
+
+int idx = static_cast<int>(lower_bound(prefixSums.begin(), prefixSums.end(), target) - prefixSums.begin()) - 1;
+     auto& rect = rectangles[idx];
+
+    int x = rect[0] + rand() % (rect[2] - rect[0] + 1);
+      int y = rect[1] + rand() % (rect[3] - rect[1] + 1);
+    
+      return {x, y};
+        
+    }
+   };
+
+//question 8 - city with smallest number of neighbours at threshold distance 
+
+    
 
 int main(){
     cout<<"solving question for company one";
