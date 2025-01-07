@@ -210,7 +210,104 @@ int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
         return cityNo;
     }
 
-    
+    //question 9- russian dolls and envelopes
+    int solve(vector<vector<int>>& envelopes){
+  sort(envelopes.begin(), envelopes.end(), [](const vector<int>& a, const vector<int>& b) {
+        return a[0] < b[0] || (a[0] == b[0] && a[1] > b[1]);
+    });
+
+    vector<int> dp;  
+    for (auto& envelope : envelopes) {
+        int height = envelope[1];
+        auto it = lower_bound(dp.begin(), dp.end(), height); 
+        if (it == dp.end()) {
+            dp.push_back(height);  // Extend the LIS
+        } else {
+            *it = height;  
+        }
+    }
+    return dp.size();
+}
+
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        return solve(envelopes);
+    }
+
+// question 10- Repeated DNA sequences 
+ vector<string> findRepeatedDnaSequences(string s) {
+         vector<string> ans;
+        if(s.size()<=10) return ans;
+        unordered_map<string,int>mpp;
+        for(int i=0;i<s.size();i++){
+           string sub = s.substr(i, 10); 
+            mpp[sub]++;
+        }
+        for(auto it:mpp){
+            if(it.second>1) ans.push_back(it.first);
+        }
+        return ans;
+    }
+
+//question 11 - counting nice subarrays 
+int numberOfSubarrays(vector<int>& nums, int k) {
+        if(k<0) return 0;
+        int l=0,r=0,sum=0,cnt=0;
+         int prefixcount = 0;
+        while(r<nums.size()){
+            sum+=(nums[r]%2);
+            
+        
+        while(sum>k){
+            sum=sum-(nums[l]%2);
+            l++;
+            prefixcount = 0;
+        }
+        if(sum==k){
+            while(l<r && nums[l]%2==0){
+                prefixcount++;
+                 l++;
+            }
+            cnt += prefixcount + 1;
+        }
+        r++;
+    }
+    return cnt;
+    }
+
+//question 12- shopping offers
+// map<vector<int>,int>mp;
+    int shoppingOffers(vector<int>& price, vector<vector<int>>& special, vector<int>& needs) {
+        if(mp.count(needs)!=0) return mp[needs];
+        int ans=0;
+        for(int i=0;i<needs.size();i++){
+            ans+=(needs[i]*price[i]);
+        }
+         
+         for(int i=0;i<special.size();i++){
+            bool isvalid=true;
+        for(int j=0;j<needs.size();j++){
+           
+            if(needs[j]<special[i][j]){
+                isvalid=false;
+                break;
+            }
+        }
+        if(isvalid){
+            for(int j=0;j<needs.size();j++){
+                needs[j]-=special[i][j];
+            }
+            int ans2=special[i].back()+shoppingOffers(price, special, needs);
+            ans=min(ans,ans2);
+            for(int j=0;j<needs.size();j++){
+                needs[j]+=special[i][j];
+            }
+        }
+         }
+    return mp[needs]= ans;
+}
+
+// question 13-  
+
 
 int main(){
     cout<<"solving question for company one";
